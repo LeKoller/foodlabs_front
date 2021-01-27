@@ -18,6 +18,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+img {
+  margin: 16px;
+}
+
 .home {
   background-image: url(https://wallpaperaccess.com/full/1412206.jpg);
   background-repeat: no-repeat;

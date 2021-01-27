@@ -10,10 +10,16 @@
       <label for="instructions">Instructions: </label>
       <textarea name="instructions" cols="30" rows="4"></textarea>
 
-      <div class="tags">
+      <hr />
+
+      <div class="tags_container">
         <label for="tag">Tag: </label>
-        <input type="text" name="tag" />
-        <button>Add tag</button>
+        <div class="tag_and_button">
+          <input type="text" name="tag" />
+          <button>
+            <md-icon class="material-icons">add_circle_outline</md-icon>
+          </button>
+        </div>
       </div>
     </form>
   </div>
@@ -67,21 +73,23 @@ a {
       align-self: center;
       margin-left: 2%;
 
-      div {
-        label {
-          align-self: flex-start;
-          display: block;
-        }
+      hr {
+        width: 100%;
+        border: 1px solid #2c3e50;
+        margin-top: 1.2rem;
+        margin-bottom: 0;
+      }
 
-        input {
-          margin-top: 0.4rem;
-          display: inline-block;
-          width: 80%;
-          align-self: flex-start;
-        }
+      .tags_container {
+        display: flex;
+        flex-direction: column;
 
-        button {
-          display: inline-block;
+        .tag_and_button {
+          display: flex;
+
+          button {
+            margin-left: 8px;
+          }
         }
       }
 
