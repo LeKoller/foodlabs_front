@@ -1,6 +1,7 @@
 <template>
   <div class="main_container">
-    <h2>Criando uma nova receita!</h2>
+    <h2>Criando uma nova receita</h2>
+
     <form @submit.prevent="createRecipe">
       <label for="name">Nome: </label>
       <input type="text" name="name" placeholder="... da receita" />
@@ -180,7 +181,11 @@ export default {
 
 <style lang="scss" scoped>
 h2 {
-  color: #42b983;
+  color: rgb(224, 227, 240);
+  font-family: "Playfair Display";
+  font-weight: 400;
+  font-size: 1.8rem;
+  text-shadow: 0 0 16px #2c3e50;
 }
 h3 {
   margin: 40px 0 0;
@@ -204,17 +209,16 @@ a {
     width: 40%;
     display: flex;
     flex-direction: column;
-    margin-left: 30%;
     padding: 16px;
     border: 1px solid rgba($color: #2c3e50, $alpha: 0.8);
     border-radius: 16px;
+    align-self: center;
 
     form {
       display: flex;
       flex-direction: column;
       width: 96%;
       align-self: center;
-      margin-left: 2%;
 
       .submit_button {
         width: fit-content;
@@ -317,7 +321,9 @@ a {
         margin-top: 1.6rem;
         margin-bottom: 0;
         color: #42b983;
-        font-weight: bold;
+        font-family: "Roboto";
+        font-size: 1.2rem;
+        font-weight: 400;
         align-self: flex-start;
         text-shadow: 0px 0px 8px #0a0a0a;
       }
@@ -329,6 +335,7 @@ a {
         padding: 0.4rem;
         margin-top: 1rem;
         background-color: rgb(224, 227, 240);
+        font-family: "Playfair Display";
       }
     }
   }

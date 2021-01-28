@@ -20,6 +20,8 @@ export default {
 <style lang="scss" scoped>
 img {
   margin: 16px;
+  width: fit-content;
+  align-self: center;
 }
 
 .home {
@@ -28,5 +30,7 @@ img {
   background-size: cover;
   background-attachment: fixed;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 </style>
