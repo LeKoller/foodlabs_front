@@ -26,6 +26,7 @@ img {
   background-image: url(https://wallpaperaccess.com/full/1412206.jpg);
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh;
+  background-attachment: fixed;
+  min-height: 100vh;
 }
 </style>

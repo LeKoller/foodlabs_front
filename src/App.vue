@@ -8,7 +8,7 @@
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -17,6 +17,7 @@
 
 #nav {
   padding: 30px;
+  background-color: rgb(224, 227, 240);
 }
 
 #nav a {
