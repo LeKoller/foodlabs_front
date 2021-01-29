@@ -117,7 +117,7 @@ export default {
   setup() {
     const state = reactive({
       tagsList: [{ name: "" }],
-      ingredientsList: [""],
+      ingredientsList: [{ name: "", unit: "", amount: "" }],
     });
 
     const tagsNumber = computed(() => state.tagsList.length);
