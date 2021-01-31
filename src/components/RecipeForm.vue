@@ -104,7 +104,9 @@
         </div>
       </div>
 
-      <button type="submit" class="submit_button">Criar receita!</button>
+      <button class="submit_button" type="submit" @click="submit">
+        Criar receita!
+      </button>
     </form>
   </div>
 </template>
@@ -247,13 +249,6 @@ a {
         }
       }
 
-      hr {
-        width: 100%;
-        border: 1px solid #2c3e50;
-        margin-top: 1.2rem;
-        margin-bottom: 0;
-      }
-
       .tags_container,
       .ingredients_container {
         display: flex;
@@ -336,6 +331,7 @@ a {
         margin-top: 1rem;
         background-color: rgb(224, 227, 240);
         font-family: "Playfair Display";
+        outline: none;
       }
     }
   }

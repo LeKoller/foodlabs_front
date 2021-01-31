@@ -1,18 +1,18 @@
 <template>
-  <div class="home">
+  <div class="get_recipe">
     <img class="logo" alt="Logo da Bom de Garfo" src="../assets/logo.png" />
-    <RecipeForm />
+    <RecipeSearch />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import RecipeForm from "@/components/RecipeForm.vue";
-
+import RecipeSearch from "@/components/RecipeSearch.vue";
 export default {
-  name: "Home",
-  components: {
-    RecipeForm,
+  name: "GetRecipe",
+  setup() {
+    return {
+      RecipeSearch,
+    };
   },
 };
 </script>
