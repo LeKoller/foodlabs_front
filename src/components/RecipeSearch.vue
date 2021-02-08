@@ -4,15 +4,16 @@
     <form @submit.prevent="searchRecipe">
       <label for="id_search">Procure pelo id</label>
       <div class="input_and_button">
-        <input type="number" name="id_search" />
+        <input type="number" name="id_search" v-model="localState.searchId" />
         <div class="button_case">
           <button class="search_button">
             <md-icon class="material-icons">search</md-icon>
           </button>
         </div>
       </div>
+      <span v-show="localState.invalidId">Receita não encontrada</span>
     </form>
-    <div v-show="state.gotRecipe">
+    <div v-show="state.gotRecipe && !localState.invalidId">
       <hr />
       <div class="recipe_case">
         <h3 class="recipe_name">{{ state.recipe.name }}</h3>
@@ -40,35 +41,36 @@
 </template>
 
 <script>
+import axios from "axios";
+import store from "../store";
 import { reactive } from "vue";
+
+window.axios = require("axios");
 
 export default {
   name: "RecipeSearch",
   setup() {
-    const state = reactive({
-      gotRecipe: false,
-      recipe: {
-        name: "Brigadeiro de Champanhe",
-        description: "É um brigadeiro gourmet",
-        instructions: "Junte espumante ao chocolate branco e deixe ferver",
-        tags: [{ name: "doce" }, { name: "gourmet" }],
-        ingredients: [
-          { name: "chocolate branco", unit: "g", amount: 300 },
-          {
-            name: "espumante",
-            unit: "mL",
-            amount: 100,
-          },
-        ],
-      },
+    const state = store.state.search;
+    const localState = reactive({
+      searchId: NaN,
+      invalidId: false,
     });
 
     function searchRecipe() {
-      state.gotRecipe = !state.gotRecipe;
+      axios
+        .get(`http://localhost:8000/recipes/${localState.searchId}`)
+        .then((response) => {
+          store.dispatch("setSearchRecipeValues", response.data);
+          localState.invalidId = false;
+        })
+        .catch((localState.invalidId = true));
+
+      store.dispatch("setSearchGotRecipe");
     }
     return {
       state,
       searchRecipe,
+      localState,
     };
   },
 };
@@ -78,7 +80,7 @@ export default {
 @supports (backdrop-filter: blur()) {
   .main_container {
     backdrop-filter: blur(4px);
-    background-color: rgba($color: #000000, $alpha: 0.3);
+    background-color: rgba($color: #000000, $alpha: 0.36);
     width: 40%;
     display: flex;
     flex-direction: column;
@@ -171,6 +173,16 @@ export default {
         font-family: "Playfair Display";
         outline: none;
       }
+
+      span {
+        color: red;
+      }
+    }
+  }
+  $breakpoint-tablet: 1024px;
+  @media (max-width: $breakpoint-tablet) {
+    .main_container {
+      width: 80%;
     }
   }
 }

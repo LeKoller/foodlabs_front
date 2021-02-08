@@ -85,4 +85,11 @@ hr {
   margin-top: 1.2rem;
   margin-bottom: 0;
 }
+
+$breakpoint-tablet: 768px;
+@media (max-width: $breakpoint-tablet) {
+  .logo {
+    width: 80%;
+  }
+}
 </style>

@@ -4,7 +4,12 @@
 
     <form @submit.prevent="createRecipe">
       <label for="name">Nome: </label>
-      <input type="text" name="name" placeholder="... da receita" />
+      <input
+        type="text"
+        name="name"
+        placeholder="... o título da receita"
+        v-model="newState.name"
+      />
 
       <label for="description">Descrição: </label>
       <textarea
@@ -12,6 +17,7 @@
         cols="30"
         rows="4"
         placeholder="... sobre a receita"
+        v-model="newState.description"
       ></textarea>
 
       <label for="instructions">Instruções: </label>
@@ -20,6 +26,7 @@
         cols="30"
         rows="4"
         placeholder="... como fazer"
+        v-model="newState.instructions"
       ></textarea>
 
       <hr />
@@ -28,18 +35,18 @@
         <label for="tag">Tags: </label>
         <div
           class="tag_and_button"
-          v-for="(input, index) in state.tagsList"
+          v-for="(input, index) in newState.tagsList"
           :key="index"
         >
           <input
             type="text"
             name="tag"
-            v-model="input.tag"
+            v-model="input.name"
             placeholder="... o nome da tag"
           />
           <div class="button_case">
             <button
-              @click="addTag(input.tag, index)"
+              @click="addTag(index)"
               :id="`tag_${index}`"
               class="add_button"
             >
@@ -57,7 +64,7 @@
         <label for="ingredients">Ingredientes: </label>
         <div
           class="ingredient_and_button"
-          v-for="(input, index) in state.ingredientsList"
+          v-for="(input, index) in newState.ingredientsList"
           :key="index"
         >
           <div class="small_container">
@@ -66,7 +73,7 @@
                 class="ingredient_name"
                 type="text"
                 placeholder="... nome do ingrediente"
-                v-model="input.ingredient"
+                v-model="input.name"
               />
               <input
                 class="ingredient_unit"
@@ -83,14 +90,7 @@
             </div>
             <div class="button_case">
               <button
-                @click="
-                  addIngredient(
-                    input.ingredient,
-                    input.unit,
-                    input.amount,
-                    index
-                  )
-                "
+                @click="addIngredient(index)"
                 :id="`ingredient_${index}`"
                 class="add_button"
               >
@@ -113,24 +113,30 @@
 
 <script>
 import { reactive, computed } from "vue";
+import store from "../store";
 
 export default {
   name: "RecipeForm",
   setup() {
     const state = reactive({
-      tagsList: [{ name: "" }],
+      name: "",
+      description: "",
+      instructions: "",
+      tagsList: [{ tag: "" }],
       ingredientsList: [{ name: "", unit: "", amount: "" }],
     });
 
-    const tagsNumber = computed(() => state.tagsList.length);
-    const ingredientsNumber = computed(() => state.ingredientsList.length);
+    const newState = store.state.create;
+
+    const tagsNumber = computed(() => newState.tagsList.length);
+    const ingredientsNumber = computed(() => newState.ingredientsList.length);
 
     function createRecipe() {
       return null;
     }
 
-    function addTag(tag, id) {
-      state.tagsList.push({ name: tag });
+    function addTag(id) {
+      store.dispatch("setCreateAddTag", { name: "" });
       const addButton = document.getElementById(`tag_${id}`);
       addButton.disabled = true;
     }
@@ -138,7 +144,7 @@ export default {
     function removeTag(id) {
       const clickedAddButton = document.getElementById(`tag_${id}`);
       if (clickedAddButton.disabled == true) {
-        state.tagsList.pop();
+        store.dispatch("setCreateRemoveTag");
       }
       const lastAddButton = document.getElementById(
         `tag_${tagsNumber.value - 1}`
@@ -146,12 +152,13 @@ export default {
       lastAddButton.disabled = false;
     }
 
-    function addIngredient(ingredient, unit, amount, id) {
-      state.ingredientsList.push({
-        name: ingredient,
-        unit: unit,
-        amount: amount,
-      });
+    function addIngredient(id) {
+      const cleanObject = {
+        name: "",
+        unit: "",
+        amount: "",
+      };
+      store.dispatch("setCreateAddIngredient", cleanObject);
       const addButton = document.getElementById(`ingredient_${id}`);
       addButton.disabled = true;
     }
@@ -159,7 +166,7 @@ export default {
     function removeIngredient(id) {
       const clickedAddButton = document.getElementById(`ingredient_${id}`);
       if (clickedAddButton.disabled === true) {
-        state.ingredientsList.pop();
+        store.dispatch("setCreateRemoveIngredient");
       }
       const lastAddButton = document.getElementById(
         `ingredient_${ingredientsNumber.value - 1}`
@@ -176,6 +183,7 @@ export default {
       ingredientsNumber,
       addIngredient,
       removeIngredient,
+      newState,
     };
   },
 };
@@ -207,7 +215,7 @@ a {
 @supports (backdrop-filter: blur()) {
   .main_container {
     backdrop-filter: blur(4px);
-    background-color: rgba($color: #000000, $alpha: 0.3);
+    background-color: rgba($color: #000000, $alpha: 0.36);
     width: 40%;
     display: flex;
     flex-direction: column;
@@ -333,6 +341,12 @@ a {
         font-family: "Playfair Display";
         outline: none;
       }
+    }
+  }
+  $breakpoint-tablet: 1024px;
+  @media (max-width: $breakpoint-tablet) {
+    .main_container {
+      width: 80%;
     }
   }
 }
